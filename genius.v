@@ -1,130 +1,145 @@
+
 module genius(
   input clock,
   input bt0,
   input bt1,
   input bt2,
   input [9:0] sw,
-  output reg [6:0] segd0,  // Corrigido: agora é reg para armazenar o valor de saída
-  output reg [6:0] segd1,  // Corrigido
-  output reg [6:0] segd2,  // Corrigido
-  output reg [6:0] segd3,  // Corrigido
-  output reg [9:0] leds    // Corrigido: mesmo tipo para os LEDs
+  output reg [6:0] segd0,  
+  output reg [6:0] segd1,  
+  output reg [6:0] segd2,  
+  output reg [6:0] segd3, 
+  output reg [9:0] leds    
 );
 
-  // Definição de estados da FSM
-  parameter showSequence = 2'h0;
-  parameter receiveInputs = 2'h1;
-  parameter addDifficult = 2'h2;
-  parameter resetGame = 2'h3;
+reg [2:0] state, nextState;
+reg [1:0] mySequence [0:15]; 
+reg [3:0] count;
 
-  reg [1:0] state, nextState;
+parameter [1:0] zero = 2'b00;
+parameter [1:0] one = 2'b01;
+parameter [1:0] two = 2'b10;
 
-  // Definição das sequências
-  reg [1:0] zero = 2'b00;
-  reg [1:0] one = 2'b01;
-  reg [1:0] two = 2'b10;
 
-  reg [1:0] mySequence [0:15]; // Sequência armazenada
 
-  reg [3:0] count;
-  wire [6:0] seg_out;  // Saída para o display de 7 segmentos
+    always @(posedge sw[0]) begin 
+        state <= 3'b000;
+        nextState <= 3'b000;
+        count <= 3'b000;
 
-  // Instanciação do módulo dec7seg
-  dec7seg dec_inst(.x(seg_out), .a(mySequence[count]));
+        mySequence[0] <= zero;
+        mySequence[1] <= one;
+        mySequence[2] <= zero;
+        mySequence[3] <= one;
+        mySequence[4] <= zero;
+        mySequence[5] <= two;
+        mySequence[6] <= zero;
+        mySequence[7] <= two;
+        mySequence[8] <= zero;
+        mySequence[9] <= one;
+        mySequence[10] <= zero;
+        mySequence[11] <= two;
+        mySequence[12] <= zero;
+        mySequence[13] <= one;
+        mySequence[14] <= zero;
+        mySequence[15] <= one;
+    end
 
+
+  // estados da FSM
+  parameter showSequence = 3'o0;
+  parameter receiveInputs = 3'o1;
+  parameter addDifficult = 3'o2;
+  parameter resetGame = 3'o3;
+  
   // Contador
-  always @(posedge clock or posedge sw[0]) begin
+  always @(posedge clock) begin
     if(sw[0]) begin
-      count <= 4'h0;
-    end 
+    count <= 4'h0;
+    end
     else begin
-      count <= count + 1'b1;
+    count <= count + 1'b1;
     end
   end 
 
-  // Inicialização da sequência
-  initial begin
-    mySequence[0] = zero;
-    mySequence[1] = one;
-    mySequence[2] = zero;
-    mySequence[3] = one;
-    mySequence[4] = two;
-    mySequence[5] = two;
-    mySequence[6] = zero;
-    mySequence[7] = zero;
-    mySequence[8] = one;
-    mySequence[9] = one;
-    mySequence[10] = two;
-    mySequence[11] = two;
-    mySequence[12] = zero;
-    mySequence[13] = zero;
-    mySequence[14] = one;
-    mySequence[15] = one;
-  end
-
   // Transição de estado
-  always @(posedge clock) begin 
-    if (sw[0])
-      state <= resetGame;
-    else
+  always @(posedge clock ) begin 
       state <= nextState;
   end
 
-  // Definição da FSM
+  always @(negedge clock) begin 
+      state <= nextState;
+  end
+
+
   always @(state) begin
     case (state)
       showSequence: begin
         leds <= 10'b1111111111;
-        segd0 <= seg_out;
+        segd0 <= 7'b0000000;
         segd1 <= 7'b0000000;
         segd2 <= 7'b0000000;
         segd3 <= 7'b0000000;
-        nextState <= 2'b00;
+        nextState <= 3'b000;
       end
       receiveInputs: begin
         // Receba as entradas do usuário
-        leds <= 10'b0000000000;  // Valor padrão
-      segd0 <= 7'b0000000;      // Valor padrão
-      segd1 <= 7'b0000000;      // Valor padrão
-      segd2 <= 7'b0000000;      // Valor padrão
-      segd3 <= 7'b0000000;      // Valor padrão
-      nextState <= 2'b00;
+        leds <= 10'b0000000000;  
+      segd0 <= 7'b0000000;      
+      segd1 <= 7'b0000000;      
+      segd2 <= 7'b0000000;      
+      segd3 <= 7'b0000000;     
+        nextState <= 3'b000;
       end
       addDifficult: begin
         // Aumente a sequência
-        leds <= 10'b0000000000;  // Valor padrão
-      segd0 <= 7'b0000000;      // Valor padrão
-      segd1 <= 7'b0000000;      // Valor padrão
-      segd2 <= 7'b0000000;      // Valor padrão
-      segd3 <= 7'b0000000;      // Valor padrão
-      nextState <= 2'b00;
+        leds <= 10'b0000000000;  
+      segd0 <= 7'b0000000;      
+      segd1 <= 7'b0000000;      
+      segd2 <= 7'b0000000;      
+      segd3 <= 7'b0000000;      
+              nextState <= 3'b000;
+
       end 
       resetGame: begin
         // Resetar o jogo
-        leds <= 10'b0000000000;  // Valor padrão
-      segd0 <= 7'b0000000;      // Valor padrão
-      segd1 <= 7'b0000000;      // Valor padrão
-      segd2 <= 7'b0000000;      // Valor padrão
-      segd3 <= 7'b0000000;      // Valor padrão
-      nextState <= 2'b00;
+        leds <= 10'b0000000000;  
+      segd0 <= 7'b0000000;      
+      segd1 <= 7'b0000000;      
+      segd2 <= 7'b0000000;      
+      segd3 <= 7'b0000000;      
+              nextState <= 3'b000;
+
       end
       default: begin
-      leds <= 10'b0000000000;  // Valor padrão
-      segd0 <= 7'b0000000;      // Valor padrão
-      segd1 <= 7'b0000000;      // Valor padrão
-      segd2 <= 7'b0000000;      // Valor padrão
-      segd3 <= 7'b0000000;      // Valor padrão
-      nextState <= 2'b00;       // Valor padrão
+      leds <= 10'b0000000000;  
+      segd0 <= 7'b0000000;      
+      segd1 <= 7'b0000000;     
+      segd2 <= 7'b0000000;      
+      segd3 <= 7'b0000000;     
+              nextState <= 3'b000;
+      
       end 
     endcase
   end
   
 endmodule
 
-// Módulo dec7seg para display de 7 segmentos
+/*
+module dec7seg1x2(
+    output reg [6:0] x,
+    output reg [6:0] y,
+    input [3:0] a
+);
+
+dec7seg dec7seg0(.a( (a > 4'h9) ? a - 4'ha : a), .x(y));
+dec7seg dec7seg1(.x(x), .a((a > 4'h9) ? 4'h1 : 4'h0));
+
+endmodule
+
 module dec7seg(
     output reg [6:0] x, 
-    input [2:0] a
+    input [3:0] a
 );
 
   always @(*) begin
@@ -142,4 +157,5 @@ module dec7seg(
       default: x = 7'b0000000;
     endcase
   end
-endmodule     
+endmodule   
+*/  
