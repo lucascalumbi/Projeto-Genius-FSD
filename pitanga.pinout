@@ -1,15 +1,9 @@
-// Arquivo de pinagem. Mapeia portas do arquivo
-// Verilog para a placa virtual programável.
-
-// Relógio do sistema (clock)
 clock      = clk_1hz;
 
-// Botões de controle
 bt0      = btn0;
 bt1      = btn1;
 bt2      = btn2;
 
-// Chaves (switches)
 sw[0]    = sw0;
 sw[1]    = sw1;
 sw[2]    = sw2;
@@ -21,7 +15,6 @@ sw[7]    = sw7;
 sw[8]    = sw8;
 sw[9]    = sw9;
 
-// LEDs de saída
 leds[0]  = led0;
 leds[1]  = led1;
 leds[2]  = led2;
@@ -32,8 +25,6 @@ leds[6]  = led6;
 leds[7]  = led7;
 leds[8]  = led8;
 leds[9]  = led9;
-
-// Displays de 7 segmentos
 
 // Display 0
 segd0[6] = segd0.a_on;
