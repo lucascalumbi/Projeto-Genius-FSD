@@ -14,6 +14,7 @@ reg [2:0] state, nextState;
 reg [3:0] count;
 reg terminou;
 reg acertou;
+reg [1:0] tempo;
 
 
   // estados da FSM
@@ -33,16 +34,16 @@ mySequence seq_inst(.count(count), .sw(sw[0]), .number(number));
 dec7seg2bits dec2(.x(segd_0), .a(number));
 dec7seg1x2 dec7(.x(segd_3), .y(segd_2), .a(count));
 verificar_botao verificar(.btn0(btn0), .btn1(btn1), .btn2(btn2), .number(number), .acertou(acertoutemp));
+temporizador tempo1(.clk(clock), .tempo(tempo));
 
 always @(posedge clock) begin
     state <= nextState;
 
-    if (state == addDifficult) 
-        count <= count + 1'b1;
-
     case (state)
           resetGame: begin
         // Resetar o jogo
+        count <= 4'b0;
+        leds <= 10'b1111111111;
         segd0 <= segd_0;
         segd2 <= segd_2;      
         segd3 <= segd_3;
@@ -63,20 +64,20 @@ always @(posedge clock) begin
             terminou <= terminou + 1'b1;
       end
       receiveInputs: begin
+        leds <= 10'b0000000000;
         segd0 <= segd_0;
         segd2 <= segd_2;      
         segd3 <= segd_3;
-		acertou <= acertoutemp;
-            if (acertou) begin 
+
+            if (acertoutemp == 1 && tempo > 2) begin 
                 leds <= 10'b0000000010;
                 nextState <= 3'b011;
-				acertou <= 1'b0;
             end
-            else begin
+            else if (acertoutemp == 0 && tempo > 2) begin
                 leds <= 10'b0000000100;
                 nextState <= 3'b000;
-            end
-        end          
+        end         
+      end 
 
       addDifficult: begin
         // Aumente a sequência
@@ -84,6 +85,7 @@ always @(posedge clock) begin
         segd2 <= segd_2;      
         segd3 <= segd_3;
         if (count < 16) begin 
+            count <= count + 1'b1;
             nextState <= 3'b001;
         end
         else begin
@@ -229,5 +231,15 @@ module verificar_botao(
     assign acertou = (btn0 && (number == 2'b00)) || 
                      (btn1 && (number == 2'b01)) || 
                      (btn2 && (number == 2'b10));
+
+endmodule
+
+module temporizador(
+    input clk,
+    output reg [1:0] tempo
+);
+        always @(posedge clk) begin
+            tempo <= tempo + 1'b1;
+        end
 
 endmodule
