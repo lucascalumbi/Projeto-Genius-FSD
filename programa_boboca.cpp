@@ -47,6 +47,18 @@ int main(){
     }
     verify_btn.close();
 
+    ifstream recieve_btn_input("modules/recieve_btn_input.v"); 
+    while (getline(recieve_btn_input, line)) {
+        main << line << endl;
+    }
+    recieve_btn_input.close();
+
+    ifstream shift_leds("modules/shift_leds.v"); 
+    while (getline(shift_leds, line)) {
+        main << line << endl;
+    }
+    shift_leds.close();
+
     main.close();
 
     return EXIT_SUCCESS;

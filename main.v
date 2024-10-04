@@ -12,11 +12,26 @@ module genius(
   output reg [9:0] leds    
 );
 
-reg [3:0] current_level;
-reg [1:0] current_number;
 reg [3:0] sequence_count;
-reg [1:0] timer_count;
+reg [1:0] current_number;
+my_sequence seq(.current_number(current_number), .sequence_count(sequence_count), .start(start));
 
+wire [6:0] segd_0; 
+dec7seg_2bits dec7_2bits(.x(segd_0), .a(current_number));
+
+reg [3:0] current_level;
+wire [6:0] segd_2;
+wire [6:0] segd_3;
+dec7seg_4bits_1x2 dec7_4bits_1x2(.x(segd_3), .y(segd_2), .a(current_level));
+
+wire is_right_choice;
+verify_btn verifier(.is_right_choice(is_right_choice), .btn(btn), .current_number(current_number));
+
+wire was_some_btn_pressed;
+recieve_btn_input btn_input(.was_some_btn_pressed(was_some_btn_pressed), .btn(btn));
+
+wire shifted_leds;
+shift_leds shift(.y(shifted_leds), .x(leds));
 
 reg [2:0] state, next_state;
   // estados da FSM
@@ -24,17 +39,6 @@ reg [2:0] state, next_state;
   parameter show_sequence = 3'o1;
   parameter receive_inputs = 3'o2;
   parameter add_difficult = 3'o3;
-  
-wire [6:0] segd_0; 
-//wire [6:0] segd_1; 
-wire [6:0] segd_2;
-wire [6:0] segd_3;
-wire is_right_choice;
-
-my_sequence seq(.current_number(current_number), .sequence_count(sequence_count), .start(start));
-dec7seg_2bits dec7_2bits(.x(segd_0), .a(current_number));
-dec7seg_4bits_1x2 dec7_4bits_1x2(.x(segd_3), .y(segd_2), .a(current_level));
-verify_btn verifier(.is_right_choice(is_right_choice), .btn(btn), .current_number(current_number));
 
 always @(posedge clock) begin
     state <= next_state;
@@ -50,6 +54,7 @@ always @(posedge clock) begin
         if (start) begin 
           sequence_count <= 4'h0;
           current_level <= 4'h0;
+          leds <= 10'b0000000001;
           next_state <= 3'o1;
         end
       end
@@ -57,42 +62,29 @@ always @(posedge clock) begin
       show_sequence: begin
         if (sequence_count == current_level) begin
           leds <= 10'b0000000001;
-          timer_count <= 2'b00;
           next_state <= 3'o2;
         end
         else begin
           sequence_count <= sequence_count + 1'b1;
+          leds <= shifted_leds;
         end 
       end
       
       receive_inputs: begin
-        leds <= 10'b0000000000;
         
-        if(timer_count > 2) begin 
-          timer_count <= 2'b00;
+        if(was_some_btn_pressed) begin
           if(is_right_choice) begin
-            leds <= 10'b0000000010;
+            //leds <= 10'b1111111111;
+            leds <= shifted_leds;
+            sequence_count <= sequence_count + 1'b1;
           end 
           else begin
-            leds <= 10'b0000000100;
+            leds <= 10'b0000000000;
             next_state <= 3'o0;
-          end 
-        end
-        else begin
-          timer_count <= timer_count + 1'b1;
-        end
+          end
+        end   
         
 
-        /*
-        if (acertoutemp && tempo > 2) begin 
-          leds <= 10'b0000000010;
-          next_state <= 3'o3;
-        end
-        else if (!acertoutemp && tempo > 2) begin
-          leds <= 10'b0000000100;
-          next_state <= 3'o0;
-        end
-        */         
       end 
 
       add_difficult: begin
@@ -239,5 +231,24 @@ module verify_btn(
     assign is_right_choice =    (btn[0] && (current_number == 2'b00)) || 
                                 (btn[1] && (current_number == 2'b01)) || 
                                 (btn[2] && (current_number == 2'b10));
+
+endmodule
+
+module recieve_btn_input(
+    output was_some_btn_pressed,
+    input [2:0] btn
+);
+
+    assign was_some_btn_pressed = btn[0] || btn[1] || btn[2];
+
+endmodule
+
+
+module shift_leds(
+    output [9:0] y,
+    input [9:0] x
+);
+
+    assign y = x[9] ? 10'b0000000001 : x << 1'b1; 
 
 endmodule
