@@ -75,8 +75,8 @@ always @(posedge clock) begin
         if(was_some_btn_pressed) begin
           if(is_right_choice) begin
             //leds <= 10'b1111111111;
-            leds <= shifted_leds;
-            sequence_count <= sequence_count + 1'b1;
+            leds <= 10'b0000000010;
+            next_state <= 3'o3;
           end 
           else begin
             leds <= 10'b0000000000;
@@ -91,8 +91,9 @@ always @(posedge clock) begin
         // Aumente a sequência
 
         if (current_level < 15) begin 
-            current_level <= current_level + 1'b1;
             next_state <= 3'o1;
+            current_level <= current_level + 1'b1;
+            sequence_count <= 4'h0;
         end
         else begin
             next_state <= 3'o0;
