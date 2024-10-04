@@ -1,11 +1,11 @@
-clock      = clk_1hz;
+clock    = clk_1hz;
 
-bt0      = btn0;
-bt1      = btn1;
-bt2      = btn2;
+btn[0]    = btn0;
+btn[1]    = btn1;
+btn[2]    = btn2;
 
-sw[0]    = sw0;
-sw[1]    = sw1;
+reset    = sw0;
+start    = sw1;
 sw[2]    = sw2;
 sw[3]    = sw3;
 sw[4]    = sw4;
@@ -27,37 +27,37 @@ leds[8]  = led8;
 leds[9]  = led9;
 
 // Display 0
-segd0[6] = segd0.a_on;
-segd0[5] = segd0.b_on;
-segd0[4] = segd0.c_on;
-segd0[3] = segd0.d_on;
-segd0[2] = segd0.e_on;
-segd0[1] = segd0.f_on;
 segd0[0] = segd0.g_on;
+segd0[1] = segd0.f_on;
+segd0[2] = segd0.e_on;
+segd0[3] = segd0.d_on;
+segd0[4] = segd0.c_on;
+segd0[5] = segd0.b_on;
+segd0[6] = segd0.a_on;
 
 // Display 1
-segd1[6] = segd1.a_on;
-segd1[5] = segd1.b_on;
-segd1[4] = segd1.c_on;
-segd1[3] = segd1.d_on;
-segd1[2] = segd1.e_on;
-segd1[1] = segd1.f_on;
 segd1[0] = segd1.g_on;
+segd1[1] = segd1.f_on;
+segd1[2] = segd1.e_on;
+segd1[3] = segd1.d_on;
+segd1[4] = segd1.c_on;
+segd1[5] = segd1.b_on;
+segd1[6] = segd1.a_on;
 
 // Display 2
-segd2[6] = segd2.a_on;
-segd2[5] = segd2.b_on;
-segd2[4] = segd2.c_on;
-segd2[3] = segd2.d_on;
-segd2[2] = segd2.e_on;
-segd2[1] = segd2.f_on;
 segd2[0] = segd2.g_on;
+segd2[1] = segd2.f_on;
+segd2[2] = segd2.e_on;
+segd2[3] = segd2.d_on;
+segd2[4] = segd2.c_on;
+segd2[5] = segd2.b_on;
+segd2[6] = segd2.a_on;
 
 // Display 3
-segd3[6] = segd3.a_on;
-segd3[5] = segd3.b_on;
-segd3[4] = segd3.c_on;
-segd3[3] = segd3.d_on;
-segd3[2] = segd3.e_on;
-segd3[1] = segd3.f_on;
 segd3[0] = segd3.g_on;
+segd3[1] = segd3.f_on;
+segd3[2] = segd3.e_on;
+segd3[3] = segd3.d_on;
+segd3[4] = segd3.c_on;
+segd3[5] = segd3.b_on;
+segd3[6] = segd3.a_on;
