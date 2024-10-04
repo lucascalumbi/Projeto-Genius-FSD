@@ -3,7 +3,7 @@ module genius(
   input clock,
   input [2:0] btn,
   input reset,
-  input start, 
+  input start, // Ativa em baixo
   input [9:2] sw,
   output reg [6:0] segd0,  
   output reg [6:0] segd1,  
@@ -14,7 +14,7 @@ module genius(
 
 reg [3:0] sequence_count;
 reg [1:0] current_number;
-my_sequence seq(.current_number(current_number), .sequence_count(sequence_count), .start(start));
+my_sequence seq(.current_number(current_number), .sequence_count(sequence_count), .start(!start));
 
 wire [6:0] segd_0; 
 dec7seg_2bits dec7_2bits(.x(segd_0), .a(current_number));
@@ -22,7 +22,7 @@ dec7seg_2bits dec7_2bits(.x(segd_0), .a(current_number));
 reg [3:0] current_level;
 wire [6:0] segd_2;
 wire [6:0] segd_3;
-dec7seg_4bits_1x2 dec7_4bits_1x2(.x(segd_3), .y(segd_2), .a(current_level + 1'b1));
+dec7seg_4bits_1x2 dec7_4bits_1x2(.x(segd_3), .y(segd_2), .a(current_level));
 
 wire is_right_choice;
 verify_btn verifier(.is_right_choice(is_right_choice), .btn(btn), .current_number(current_number));
@@ -59,10 +59,11 @@ always @(posedge clock) begin
         end
       end
 
-      show_sequence: begin
+      show_sequence_state: begin
         segd0 <= segd_0;
-        if (sequence_count == current_level) begin
+        if (sequence_count > current_level) begin
           leds <= 10'b0000000001;
+          sequence_count <= 4'h0;
           next_state <= receive_inputs_state;
         end
         else begin
@@ -71,8 +72,11 @@ always @(posedge clock) begin
         end 
       end
       
-      receive_inputs: begin
+      receive_inputs_state: begin
         segd0 <= 10'b0000000000;
+        if (sequence_count > current_level) begin 
+            next_state <= add_difficult_state;
+        end
         if(was_some_btn_pressed) begin
           if(is_right_choice) begin
             //leds <= 10'b1111111111;
@@ -89,11 +93,12 @@ always @(posedge clock) begin
 
       end       
 
-      add_difficult: begin
+      add_difficult_state: begin
         // Aumente a sequência
         segd0 <= 10'b0000000000;
         if (current_level < 15) begin 
             current_level <= current_level + 1'b1;
+            sequence_count <= 1'h0;
             next_state <= show_sequence_state;
         end
         else begin
