@@ -2,6 +2,7 @@
 module my_sequence (
     output reg [1:0] current_number,
     input [3:0] sequence_count,
+    input clk,
     input start
 );
 
@@ -45,7 +46,7 @@ always @(posedge start) begin
     sequence_15 <= one;
 end
 
-always @(*) begin
+always @(posedge clk) begin
     case (sequence_count)
         4'h0: current_number <= sequence_0;
         4'h1: current_number <= sequence_1;

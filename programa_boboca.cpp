@@ -8,7 +8,7 @@ int main(){
     // rodar o programa para """recompilar""" o arquivo main.v
     // g++ programa_boboca.cpp -o programa_boboca_executavel && ./programa_boboca_executavel
 
-    ofstream main("main.v");
+    ofstream main("test_banch/main.v");
     string line;
 
     ifstream genius("modules/genius.v"); 
