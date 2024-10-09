@@ -59,6 +59,12 @@ int main(){
     }
     shift_leds.close();
 
+    ifstream dec7seg_4bits_hexadec("modules/dec7seg_4bits_hexadec.v");
+    while (getline(dec7seg_4bits_hexadec,line)){
+        main << line << endl;
+    }
+    dec7seg_4bits_hexadec.close();
+
     main.close();
 
     return EXIT_SUCCESS;

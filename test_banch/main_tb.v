@@ -12,6 +12,10 @@ module genius_tb;
   wire [9:0] leds;
   logic [9:2] sw;
 
+  // iverilog -o main_tb.vvp main_tb.v
+  // vvp main_tb.vvp
+  // gtkwave genius_tb.vcd
+
   // Geração de clock com período de 20 ns (50 MHz)
   always begin
      #10 clock = ~clock;
@@ -34,23 +38,20 @@ module genius_tb;
 
     // Sequência de testes
 
-    // 1. Aplicar reset
-    #10 reset = 1; 
-    #10 reset = 0; 
 
     // 2. Iniciar o jogo
     #10 start = 1; 
     #20 start = 0; 
 
     // 3. Simular pressionamento dos botões
-    #100 btn0 = 1; // Pressionar btn0
-    #50 btn0 = 0;  // Soltar btn0
+    #10 btn0 = 1; // Pressionar btn0
+    #10 btn0 = 0;  // Soltar btn0
 
-    #100 btn1 = 1; // Pressionar btn1
-    #50 btn1 = 0;  // Soltar btn1
+    #10 btn1 = 1; // Pressionar btn1
+    #10 btn1 = 0;  // Soltar btn1
 
-    #100 btn2 = 1; // Pressionar btn2
-    #50 btn2 = 0;  // Soltar btn2
+    #10 btn2 = 1; // Pressionar btn2
+    #10 btn2 = 0;  // Soltar btn2
 
     // 4. Simulação finalizada
     #10000 $finish;   

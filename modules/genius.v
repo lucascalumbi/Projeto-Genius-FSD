@@ -17,7 +17,7 @@ parameter true = 1'b1;
 parameter false = 1'b1;
 
 reg [3:0] sequence_count;
-reg [1:0] current_number;
+wire [1:0] current_number;
 my_sequence seq(.current_number(current_number), .sequence_count(sequence_count), .clk(clock), .start(start));
 
 wire [6:0] segd_0; 
@@ -57,12 +57,13 @@ always @(posedge clock) begin
         reset_game_state: begin
           leds <= 10'b1111111111;
           segd0 <= seg_off;
+          next_state <= state; // mantenha o estado atual
           // Resetar o jogo
           if (start) begin 
             sequence_count <= 4'h0;
             current_level <= 4'h0;
             leds <= 10'b0000000001;
-            next_state <= show_sequence_state;
+            next_state <= show_sequence_state; // mostre a sequencia de numeros
           end
         end
 
@@ -77,6 +78,7 @@ always @(posedge clock) begin
             segd0 <= segd_0;
             sequence_count <= sequence_count + 1'b1;
             leds <= shifted_leds;
+            next_state <= state; // mantenha o estado atual
           end 
         end
         
@@ -91,15 +93,15 @@ always @(posedge clock) begin
                 //leds <= 10'b1111111111;
                 leds <= shifted_leds;
                 sequence_count <= sequence_count + 1'b1;
-                next_state <= receive_inputs_state;
+                next_state <= state; // mantenha o estado atual
               end 
               else begin
                 leds <= 10'b0000000000;
-                next_state <= reset_game_state;
+                next_state <= reset_game_state; // jogador perdeu, resete o jogo
               end
             end
             else begin
-              next_state <= receive_inputs_state;
+              next_state <= state; // mantenha o estado atual
             end 
           end
         end       
@@ -110,10 +112,10 @@ always @(posedge clock) begin
           if (current_level < 15) begin 
               current_level <= current_level + 1'b1;
               sequence_count <= 1'h0;
-              next_state <= show_sequence_state;
+              next_state <= show_sequence_state; // mostre a sequencia incrementada de numeros
           end
           else begin
-              next_state <= reset_game_state;
+              next_state <= reset_game_state; // jogador ganhou, resete o jogo
           end
         end 
 
