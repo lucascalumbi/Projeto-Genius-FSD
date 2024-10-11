@@ -1,5 +1,5 @@
 $date
-	Fri Oct  4 23:45:48 2024
+	Fri Oct 11 15:28:53 2024
 $end
 $version
 	Icarus Verilog
@@ -34,74 +34,75 @@ $var wire 7 3 segd_0 [6:0] $end
 $var wire 1 4 is_right_choice $end
 $var wire 2 5 current_number [1:0] $end
 $var parameter 3 6 add_difficult_state $end
-$var parameter 1 7 false $end
-$var parameter 3 8 receive_inputs_state $end
-$var parameter 3 9 reset_game_state $end
-$var parameter 7 : seg_off $end
-$var parameter 3 ; show_sequence_state $end
-$var parameter 1 < true $end
-$var reg 4 = current_level [3:0] $end
-$var reg 10 > leds [9:0] $end
-$var reg 3 ? next_state [2:0] $end
-$var reg 7 @ segd0 [6:0] $end
-$var reg 7 A segd1 [6:0] $end
-$var reg 7 B segd2 [6:0] $end
-$var reg 7 C segd3 [6:0] $end
-$var reg 4 D sequence_count [3:0] $end
-$var reg 3 E state [2:0] $end
+$var parameter 10 7 leds_off $end
+$var parameter 10 8 leds_on $end
+$var parameter 3 9 receive_inputs_state $end
+$var parameter 3 : reset_game_state $end
+$var parameter 7 ; seg_off $end
+$var parameter 3 < show_sequence_state $end
+$var reg 4 = Current_level [3:0] $end
+$var reg 4 > Current_number [3:0] $end
+$var reg 3 ? Next_state [2:0] $end
+$var reg 4 @ Sequence_count [3:0] $end
+$var reg 3 A State [2:0] $end
+$var reg 1 B clock_count $end
+$var reg 4 C current_level [3:0] $end
+$var reg 10 D leds [9:0] $end
+$var reg 3 E next_state [2:0] $end
+$var reg 7 F segd0 [6:0] $end
+$var reg 7 G segd1 [6:0] $end
+$var reg 7 H segd2 [6:0] $end
+$var reg 7 I segd3 [6:0] $end
+$var reg 4 J sequence_count [3:0] $end
+$var reg 3 K state [2:0] $end
 $scope module btn_input $end
-$var wire 3 F btn [2:0] $end
+$var wire 3 L btn [2:0] $end
 $var wire 1 / was_some_btn_pressed $end
 $upscope $end
 $scope module dec7_2bits $end
-$var wire 7 G x [6:0] $end
-$var wire 2 H a [1:0] $end
-$upscope $end
-$scope module dec7_4bits_1x2 $end
-$var wire 4 I a [3:0] $end
-$var wire 7 J y [6:0] $end
-$var wire 7 K x [6:0] $end
-$scope module d0 $end
-$var wire 4 L a [3:0] $end
 $var wire 7 M x [6:0] $end
+$var wire 2 N a [1:0] $end
 $upscope $end
-$scope module d1 $end
-$var wire 4 N a [3:0] $end
-$var wire 7 O x [6:0] $end
+$scope module dec7seg_4bits_hexadec0 $end
+$var wire 4 O a [3:0] $end
+$var wire 7 P y [6:0] $end
 $upscope $end
+$scope module dec7seg_4bits_hexadec1 $end
+$var wire 4 Q a [3:0] $end
+$var wire 7 R y [6:0] $end
 $upscope $end
 $scope module seq $end
 $var wire 1 ) clk $end
-$var wire 4 P sequence_count [3:0] $end
+$var wire 4 S sequence_count [3:0] $end
 $var wire 1 + start $end
-$var parameter 2 Q one $end
-$var parameter 2 R two $end
-$var parameter 2 S zero $end
-$var reg 2 T current_number [1:0] $end
-$var reg 2 U sequence_0 [1:0] $end
-$var reg 2 V sequence_1 [1:0] $end
-$var reg 2 W sequence_10 [1:0] $end
-$var reg 2 X sequence_11 [1:0] $end
-$var reg 2 Y sequence_12 [1:0] $end
-$var reg 2 Z sequence_13 [1:0] $end
-$var reg 2 [ sequence_14 [1:0] $end
-$var reg 2 \ sequence_15 [1:0] $end
-$var reg 2 ] sequence_2 [1:0] $end
-$var reg 2 ^ sequence_3 [1:0] $end
-$var reg 2 _ sequence_4 [1:0] $end
-$var reg 2 ` sequence_5 [1:0] $end
-$var reg 2 a sequence_6 [1:0] $end
-$var reg 2 b sequence_7 [1:0] $end
-$var reg 2 c sequence_8 [1:0] $end
-$var reg 2 d sequence_9 [1:0] $end
+$var parameter 2 T one $end
+$var parameter 2 U two $end
+$var parameter 2 V zero $end
+$var reg 2 W current_number [1:0] $end
+$var reg 2 X sequence_0 [1:0] $end
+$var reg 2 Y sequence_1 [1:0] $end
+$var reg 2 Z sequence_10 [1:0] $end
+$var reg 2 [ sequence_11 [1:0] $end
+$var reg 2 \ sequence_12 [1:0] $end
+$var reg 2 ] sequence_13 [1:0] $end
+$var reg 2 ^ sequence_14 [1:0] $end
+$var reg 2 _ sequence_15 [1:0] $end
+$var reg 2 ` sequence_2 [1:0] $end
+$var reg 2 a sequence_3 [1:0] $end
+$var reg 2 b sequence_4 [1:0] $end
+$var reg 2 c sequence_5 [1:0] $end
+$var reg 2 d sequence_6 [1:0] $end
+$var reg 2 e sequence_7 [1:0] $end
+$var reg 2 f sequence_8 [1:0] $end
+$var reg 2 g sequence_9 [1:0] $end
 $upscope $end
 $scope module shift $end
-$var wire 10 e x [9:0] $end
-$var wire 10 f y [9:0] $end
+$var wire 10 h x [9:0] $end
+$var wire 10 i y [9:0] $end
 $upscope $end
 $scope module verifier $end
-$var wire 3 g btn [2:0] $end
-$var wire 2 h current_number [1:0] $end
+$var wire 3 j btn [2:0] $end
+$var wire 2 k current_number [1:0] $end
 $var wire 1 4 is_right_choice $end
 $upscope $end
 $upscope $end
@@ -109,21 +110,24 @@ $upscope $end
 $enddefinitions $end
 $comment Show the parameter values. $end
 $dumpall
-b0 S
-b10 R
-b1 Q
-1<
-b1 ;
+b0 V
+b10 U
+b1 T
+b1 <
+b0 ;
 b0 :
-b0 9
-b10 8
-17
+b10 9
+b1111111111 8
+b0 7
 b11 6
 $end
 #0
 $dumpvars
+bx k
+b0 j
+bx i
 bx h
-b0 g
+bx g
 bx f
 bx e
 bx d
@@ -140,24 +144,24 @@ bx Z
 bx Y
 bx X
 bx W
-bx V
-bx U
-bx T
+bx S
+bx R
+bx Q
 bx P
-bx0 O
-b0x N
+bx O
+bx N
 bx M
-bx L
-bx0 K
+b0 L
+bx K
 bx J
 bx I
 bx H
 bx G
-b0 F
+bx F
 bx E
 bx D
 bx C
-bx B
+xB
 bx A
 bx @
 bx ?
@@ -167,7 +171,7 @@ bx 5
 04
 bx 3
 bx 2
-bx0 1
+bx 1
 bx 0
 0/
 b0 .
@@ -187,43 +191,44 @@ bx !
 $end
 #10
 b0 0
-b0 f
+b0 i
 b1111110 3
-b1111110 G
-b1 \
-b0 [
-b1 Z
-b0 Y
+b1111110 M
+b1 _
+b0 ^
+b1 ]
+b0 \
+b10 [
+b0 Z
+b1 g
+b0 f
+b10 e
+b0 d
+b10 c
+b0 b
+b1 a
+b0 `
+b1 Y
 b10 X
-b0 W
-b1 d
-b0 c
-b10 b
-b0 a
-b10 `
-b0 _
-b1 ^
-b0 ]
-b1 V
-b10 U
 b0 5
-b0 H
-b0 T
-b0 h
-b0 ?
+b0 N
+b0 W
+b0 k
+b0xx >
+b0 E
 b0 %
-b0 >
-b0 e
-bx0 !
-bx0 C
+b0 D
+b0 h
 b0 #
-b0 A
+b0 G
 1+
 1)
 #20
 0)
 #30
-b0 E
+b0 >
+b0 ?
+b0 K
 1)
 0+
 #40
@@ -231,51 +236,52 @@ b0 E
 1/
 0)
 b1 -
-b1 F
-b1 g
+b1 L
+b1 j
 1&
 #50
 b1 0
-b1 f
+b1 i
+b0 A
 b0 $
-b0 @
+b0 F
 b1111111111 %
-b1111111111 >
-b1111111111 e
+b1111111111 D
+b1111111111 h
 04
 0/
 1)
 b0 -
-b0 F
-b0 g
+b0 L
+b0 j
 0&
 #60
 1/
 0)
 b10 -
-b10 F
-b10 g
+b10 L
+b10 j
 1'
 #70
 0/
 1)
 b0 -
-b0 F
-b0 g
+b0 L
+b0 j
 0'
 #80
 1/
 0)
 b100 -
-b100 F
-b100 g
+b100 L
+b100 j
 1(
 #90
 0/
 1)
 b0 -
-b0 F
-b0 g
+b0 L
+b0 j
 0(
 #100
 0)

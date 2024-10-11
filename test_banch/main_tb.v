@@ -1,5 +1,5 @@
 `timescale 1ns/1ns
-`include "main.v"
+`include "main_simulation.v"
 
 module genius_tb; 
   // Declaração de sinais
@@ -12,9 +12,7 @@ module genius_tb;
   wire [9:0] leds;
   logic [9:2] sw;
 
-  // iverilog -o main_tb.vvp main_tb.v
-  // vvp main_tb.vvp
-  // gtkwave genius_tb.vcd
+  // iverilog -o main_tb.vvp main_tb.v && vvp main_tb.vvp && gtkwave genius_tb.vcd
 
   // Geração de clock com período de 20 ns (50 MHz)
   always begin

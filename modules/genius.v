@@ -14,7 +14,7 @@ module genius(
 
 
 parameter true = 1'b1;
-parameter false = 1'b1;
+parameter false = 1'b0;
 
 reg [3:0] sequence_count;
 wire [1:0] current_number;
@@ -26,7 +26,9 @@ dec7seg_2bits dec7_2bits(.x(segd_0), .a(current_number));
 reg [3:0] current_level;
 wire [6:0] segd_2;
 wire [6:0] segd_3;
-dec7seg_4bits_1x2 dec7_4bits_1x2(.x(segd_3), .y(segd_2), .a(current_level));
+dec7seg_4bits_hexadec dec7seg_4bits_hexadec0(.y(segd_3), .a(current_level));
+dec7seg_4bits_hexadec dec7seg_4bits_hexadec1(.y(segd_2), .a(sequence_count));
+//dec7seg_4bits_1x2 dec7_4bits_1x2(.x(segd_3), .y(segd_2), .a(current_level));
 
 wire is_right_choice;
 verify_btn verifier(.is_right_choice(is_right_choice), .btn(btn), .current_number(current_number));
