@@ -18,13 +18,13 @@ wire [1:0] current_number;
 my_sequence seq(.current_number(current_number), .sequence_count(sequence_count), .clk(clock), .start(start));
 
 wire [6:0] segd_0; 
-dec7seg_2bits dec7_2bits(.x(segd_0), .a(current_number));
+dec7seg_4bits_hexadec dec7seg_4bits_hexadec0(.y(segd_0), .a({2'b00,current_number}));
 
 reg [3:0] current_level;
 wire [6:0] segd_2;
 wire [6:0] segd_3;
-dec7seg_4bits_hexadec dec7seg_4bits_hexadec0(.y(segd_3), .a(current_level)); // temporario
-dec7seg_4bits_hexadec dec7seg_4bits_hexadec1(.y(segd_2), .a(sequence_count)); // temporario
+dec7seg_4bits_hexadec dec7seg_4bits_hexadec1(.y(segd_3), .a(current_level)); // temporario
+dec7seg_4bits_hexadec dec7seg_4bits_hexadec2(.y(segd_2), .a(sequence_count)); // temporario
 //dec7seg_4bits_1x2 dec7_4bits_1x2(.x(segd_3), .y(segd_2), .a(current_level));
 
 wire is_right_choice;
@@ -46,7 +46,7 @@ parameter receive_inputs_state = 3'o2;
 parameter add_difficult_state = 3'o3;
 
 parameter seg_off = 7'b0000000;
-parameter leds_off = 10'b0000000000;
+parameter leds_off = 10'b0000000000; 
 parameter leds_on = 10'b1111111111;
 
 

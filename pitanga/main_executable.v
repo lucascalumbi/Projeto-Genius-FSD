@@ -5,7 +5,6 @@ module genius(
   input reset,
   input start, 
   input [9:2] sw,
-//begin1
   output reg [6:0] segd0,  
   output reg [6:0] segd1,  
   output reg [6:0] segd2,  
@@ -18,13 +17,13 @@ wire [1:0] current_number;
 my_sequence seq(.current_number(current_number), .sequence_count(sequence_count), .clk(clock), .start(start));
 
 wire [6:0] segd_0; 
-dec7seg_2bits dec7_2bits(.x(segd_0), .a(current_number));
+dec7seg_4bits_hexadec dec7seg_4bits_hexadec0(.y(segd_0), .a({2'b00,current_number}));
 
 reg [3:0] current_level;
 wire [6:0] segd_2;
 wire [6:0] segd_3;
-dec7seg_4bits_hexadec dec7seg_4bits_hexadec0(.y(segd_3), .a(current_level)); // temporario
-dec7seg_4bits_hexadec dec7seg_4bits_hexadec1(.y(segd_2), .a(sequence_count)); // temporario
+dec7seg_4bits_hexadec dec7seg_4bits_hexadec1(.y(segd_3), .a(current_level)); // temporario
+dec7seg_4bits_hexadec dec7seg_4bits_hexadec2(.y(segd_2), .a(sequence_count)); // temporario
 //dec7seg_4bits_1x2 dec7_4bits_1x2(.x(segd_3), .y(segd_2), .a(current_level));
 
 wire is_right_choice;
@@ -46,7 +45,7 @@ parameter receive_inputs_state = 3'o2;
 parameter add_difficult_state = 3'o3;
 
 parameter seg_off = 7'b0000000;
-parameter leds_off = 10'b0000000000;
+parameter leds_off = 10'b0000000000; 
 parameter leds_on = 10'b1111111111;
 
 
@@ -215,49 +214,6 @@ end
 
 endmodule
 
-module dec7seg_4bits_1x2(
-    output [6:0] x,
-    output [6:0] y,
-    input [3:0] a
-); 
-
-dec7seg_4bits d0(.x(y), .a( (a > 4'h9) ? a - 4'ha : a));
-dec7seg_4bits d1(.x(x), .a((a > 4'h9) ? 4'h1 : 4'h0));
-
-endmodule
-
-module dec7seg_4bits(
-  output [6:0] x, 
-  input [3:0] a
-);
-
-  assign x =  (a == 4'h0) ? 7'b1111110 :
-              (a == 4'h1) ? 7'b0110000 :
-              (a == 4'h2) ? 7'b1101101 :
-              (a == 4'h3) ? 7'b1111001 :
-              (a == 4'h4) ? 7'b0110011 :
-              (a == 4'h5) ? 7'b1011011 :
-              (a == 4'h6) ? 7'b1011111 :
-              (a == 4'h7) ? 7'b1110000 :
-              (a == 4'h8) ? 7'b1111111 :
-              (a == 4'h9) ? 7'b1111011 :
-              7'b0000000; 
-
-endmodule
-
-module dec7seg_2bits(
-    output [6:0] x, 
-    input [1:0] a
-);
-
-  assign x = (a == 2'b00) ? 7'b1111110 :
-             (a == 2'b01) ? 7'b0110000 :
-             (a == 2'b10) ? 7'b1101101 :
-             (a == 2'b11) ? 7'b0000000 :
-             7'b0000000; 
-
-endmodule
-
 module verify_btn(
     output is_right_choice,
     input [2:0] btn,
@@ -289,8 +245,8 @@ module shift_leds(
 
 endmodule
 module dec7seg_4bits_hexadec(
-    output [6:0] y,    // Saída
-    input [3:0] a    // Entrada A
+    output [6:0] y,    
+    input [3:0] a   
 );  
 
     assign y =  (a == 4'h0) ? 7'b1111110 :
