@@ -33,25 +33,13 @@ void build_file_simulator(ofstream* file){
         *file << line << endl;
     }
     my_sequence.close();
-
+    /*
     ifstream dec7seg_4bits_1x2("modules/dec7seg_4bits_1x2.v");
     while (getline(dec7seg_4bits_1x2, line)) {
         *file << line << endl;
     }
     dec7seg_4bits_1x2.close();
-
-    ifstream dec7seg_4bits("modules/dec7seg_4bits.v"); 
-    while (getline(dec7seg_4bits, line)) {
-        *file << line << endl;
-    }
-    dec7seg_4bits.close();
-
-    ifstream dec7seg_2bits("modules/dec7seg_2bits.v"); 
-    while (getline(dec7seg_2bits, line)) {
-        *file << line << endl;
-    }
-    dec7seg_2bits.close();
-
+    */
     ifstream verify_btn("modules/verify_btn.v"); 
     while (getline(verify_btn, line)) {
         *file << line << endl;
@@ -82,7 +70,10 @@ void build_file_executable(ofstream* file){
 
     ifstream genius("modules/genius.v"); 
     while (getline(genius, line)) {
+        if(line == "//begin1")
+            continue;
         *file << line << endl;
+            
     }
     genius.close();
 
@@ -91,25 +82,13 @@ void build_file_executable(ofstream* file){
         *file << line << endl;
     }
     my_sequence.close();
-
+    /*
     ifstream dec7seg_4bits_1x2("modules/dec7seg_4bits_1x2.v");
     while (getline(dec7seg_4bits_1x2, line)) {
         *file << line << endl;
     }
     dec7seg_4bits_1x2.close();
-
-    ifstream dec7seg_4bits("modules/dec7seg_4bits.v"); 
-    while (getline(dec7seg_4bits, line)) {
-        *file << line << endl;
-    }
-    dec7seg_4bits.close();
-
-    ifstream dec7seg_2bits("modules/dec7seg_2bits.v"); 
-    while (getline(dec7seg_2bits, line)) {
-        *file << line << endl;
-    }
-    dec7seg_2bits.close();
-
+    */
     ifstream verify_btn("modules/verify_btn.v"); 
     while (getline(verify_btn, line)) {
         *file << line << endl;
@@ -141,8 +120,8 @@ int main(){
 
     // rodar o programa para """recompilar""" o arquivo main.v
     // g++ programa_boboca.cpp -o programa_boboca_executavel && ./programa_boboca_executavel
-
-    ofstream main_simulation("test_banch/main_simulation.v");
+    
+    ofstream main_simulation("test_bench/main_simulation.v");
     ofstream main_executable("pitanga/main_executable.v");
     
     build_file_simulator(&main_simulation);

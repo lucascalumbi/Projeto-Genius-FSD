@@ -38,6 +38,19 @@ module genius_tb;
 
   // iverilog -o main_tb.vvp main_tb.v && vvp main_tb.vvp && gtkwave genius_tb.vcd
 
+  // Instância do módulo genius
+  genius genius0(
+    .clock(clock),
+    .btn({btn2, btn1, btn0}),
+    .reset(reset),
+    .start(start), 
+    .sw(sw),
+    .segd0(segd0),  
+    .segd1(segd1),  
+    .segd2(segd2),  
+    .segd3(segd3), 
+    .leds(leds)    
+  );
   // Geração de clock com período de 20 ns (50 MHz)
   always begin
      #10 clock = ~clock;

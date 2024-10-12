@@ -1,6 +1,6 @@
 module dec7seg_4bits_hexadec(
-    output [6:0] y,    // Saída
-    input [3:0] a    // Entrada A
+    output [6:0] y,    
+    input [3:0] a   
 );  
 
     assign y =  (a == 4'h0) ? 7'b1111110 :
