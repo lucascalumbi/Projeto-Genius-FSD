@@ -1,9 +1,9 @@
-
 module my_sequence (
     output reg [1:0] current_number,
     input [3:0] sequence_count,
     input clk,
-    input start
+    input start,
+    input [3:0]sw
 );
 
 parameter [1:0] zero = 2'b00;
@@ -27,7 +27,9 @@ reg [1:0] sequence_13;
 reg [1:0] sequence_14;
 reg [1:0] sequence_15;
 
+
 always @(posedge start) begin 
+    if (sw[0]) begin
     sequence_0 <= two;
     sequence_1 <= one;
     sequence_2 <= zero;
@@ -44,6 +46,97 @@ always @(posedge start) begin
     sequence_13 <= one;
     sequence_14 <= zero;
     sequence_15 <= one;
+    end
+    else if (sw[1]) begin 
+    sequence_0 <= two;
+    sequence_1 <= one;
+    sequence_2 <= zero;
+    sequence_3 <= two;
+    sequence_4 <= one;
+    sequence_5 <= zero;
+    sequence_6 <= two;
+    sequence_7 <= one;
+    sequence_8 <= one;
+    sequence_9 <= zero;
+    sequence_10 <= two;
+    sequence_11 <= zero;
+    sequence_12 <= one;
+    sequence_13 <= two;
+    sequence_14 <= zero;
+    sequence_15 <= one;
+    end
+    else if (sw[2]) begin 
+    sequence_0 <= zero;
+    sequence_1 <= two;
+    sequence_2 <= one;
+    sequence_3 <= zero;
+    sequence_4 <= two;
+    sequence_5 <= one;
+    sequence_6 <= one;
+    sequence_7 <= two;
+    sequence_8 <= zero;
+    sequence_9 <= one;
+    sequence_10 <= zero;
+    sequence_11 <= two;
+    sequence_12 <= one;
+    sequence_13 <= zero;
+    sequence_14 <= two;
+    sequence_15 <= one;
+    end
+    else begin 
+    sequence_0 <= two;
+    sequence_1 <= one;
+    sequence_2 <= zero;
+    sequence_3 <= two;
+    sequence_4 <= zero;
+    sequence_5 <= one;
+    sequence_6 <= one;
+    sequence_7 <= two;
+    sequence_8 <= zero;
+    sequence_9 <= two;
+    sequence_10 <= one;
+    sequence_11 <= zero;
+    sequence_12 <= zero;
+    sequence_13 <= two;
+    sequence_14 <= one;
+    sequence_15 <= two;
+    end
+/*    else if (sw[4]) begin
+    sequence_0 <= one;
+    sequence_1 <= two;
+    sequence_2 <= zero;
+    sequence_3 <= one;
+    sequence_4 <= two;
+    sequence_5 <= zero;
+    sequence_6 <= one;
+    sequence_7 <= zero;
+    sequence_8 <= two;
+    sequence_9 <= one;
+    sequence_10 <= two;
+    sequence_11 <= zero;
+    sequence_12 <= one;
+    sequence_13 <= two;
+    sequence_14 <= zero;
+    sequence_15 <= one;
+    end
+    else begin
+    sequence_0 <= two;
+    sequence_1 <= zero;
+    sequence_2 <= one;
+    sequence_3 <= two;
+    sequence_4 <= one;
+    sequence_5 <= zero;
+    sequence_6 <= zero;
+    sequence_7 <= one;
+    sequence_8 <= two;
+    sequence_9 <= zero;
+    sequence_10 <= one;
+    sequence_11 <= two;
+    sequence_12 <= zero;
+    sequence_13 <= one;
+    sequence_14 <= two;
+    sequence_15 <= zero;
+    end*/
 end
 
 always @(posedge clk) begin
