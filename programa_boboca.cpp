@@ -33,13 +33,7 @@ void build_file_simulator(ofstream* file){
         *file << line << endl;
     }
     my_sequence.close();
-    /*
-    ifstream dec7seg_4bits_1x2("modules/dec7seg_4bits_1x2.v");
-    while (getline(dec7seg_4bits_1x2, line)) {
-        *file << line << endl;
-    }
-    dec7seg_4bits_1x2.close();
-    */
+
     ifstream verify_btn("modules/verify_btn.v"); 
     while (getline(verify_btn, line)) {
         *file << line << endl;
@@ -58,11 +52,24 @@ void build_file_simulator(ofstream* file){
     }
     shift_leds.close();
 
-    ifstream dec7seg_4bits_hexadec("modules/dec7seg_4bits_hexadec.v");
-    while (getline(dec7seg_4bits_hexadec,line)){
+    ifstream dec7seg_4bits_1x2("modules/dec7seg_4bits_1x2.v");
+    while (getline(dec7seg_4bits_1x2,line)){
         *file << line << endl;
     }
-    dec7seg_4bits_hexadec.close();
+    dec7seg_4bits_1x2.close();
+
+    ifstream dec7seg_4bits("modules/dec7seg_4bits.v");
+    while (getline(dec7seg_4bits,line)){
+        *file << line << endl;
+    }
+    dec7seg_4bits.close();
+
+    ifstream dec7seg_2bits("modules/dec7seg_2bits.v");
+    while (getline(dec7seg_2bits,line)){
+        *file << line << endl;
+    }
+    dec7seg_2bits.close();
+
 }
 
 void build_file_executable(ofstream* file){
@@ -82,13 +89,7 @@ void build_file_executable(ofstream* file){
         *file << line << endl;
     }
     my_sequence.close();
-    /*
-    ifstream dec7seg_4bits_1x2("modules/dec7seg_4bits_1x2.v");
-    while (getline(dec7seg_4bits_1x2, line)) {
-        *file << line << endl;
-    }
-    dec7seg_4bits_1x2.close();
-    */
+
     ifstream verify_btn("modules/verify_btn.v"); 
     while (getline(verify_btn, line)) {
         *file << line << endl;
@@ -107,11 +108,23 @@ void build_file_executable(ofstream* file){
     }
     shift_leds.close();
 
-    ifstream dec7seg_4bits_hexadec("modules/dec7seg_4bits_hexadec.v");
-    while (getline(dec7seg_4bits_hexadec,line)){
+    ifstream dec7seg_4bits_1x2("modules/dec7seg_4bits_1x2.v");
+    while (getline(dec7seg_4bits_1x2,line)){
         *file << line << endl;
     }
-    dec7seg_4bits_hexadec.close();
+    dec7seg_4bits_1x2.close();
+
+    ifstream dec7seg_4bits("modules/dec7seg_4bits.v");
+    while (getline(dec7seg_4bits,line)){
+        *file << line << endl;
+    }
+    dec7seg_4bits.close();
+
+    ifstream dec7seg_2bits("modules/dec7seg_2bits.v");
+    while (getline(dec7seg_2bits,line)){
+        *file << line << endl;
+    }
+    dec7seg_2bits.close();
 
 
 }
