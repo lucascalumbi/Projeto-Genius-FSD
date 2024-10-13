@@ -6,10 +6,10 @@ btn[2]    = btn2;
 
 reset    = sw0;
 start    = sw1;
-sw[2]    = sw2;
-sw[3]    = sw3;
-sw[4]    = sw4;
-sw[5]    = sw5;
+sequences[2]    = sw2;
+sequences[3]    = sw3;
+sequences[4]    = sw4;
+sequences[5]    = sw5;
 sw[6]    = sw6;
 sw[7]    = sw7;
 sw[8]    = sw8;

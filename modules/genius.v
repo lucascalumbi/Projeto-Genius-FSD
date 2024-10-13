@@ -3,7 +3,7 @@ module genius(
   input [2:0] btn,
   input reset,
   input start, 
-  input [5:2] sw,
+  input [5:2] sequences,
   output reg [6:0] segd0,  
   output reg [6:0] segd1,  
   output reg [6:0] segd2,  
@@ -13,7 +13,7 @@ module genius(
 
 reg [3:0] sequence_count;
 wire [1:0] current_number;
-my_sequence seq(.current_number(current_number), .sequence_count(sequence_count), .clk(clock), .start(start), .sw(sw[5:2]));
+my_sequence seq(.current_number(current_number), .sequence_count(sequence_count), .clk(clock), .start(start), .sequences(sequences));
 
 wire [6:0] segd_0; 
 //dec7seg_4bits_hexadec dec7seg_4bits_hexadec0(.y(segd_0), .a({2'b00,current_number}));
@@ -26,10 +26,15 @@ wire [6:0] segd_3;
 dec7seg_4bits_1x2 dec7_4bits_1x2(.x(segd_3), .y(segd_2), .a(current_level));
 
 wire is_right_choice;
-verify_btn verifier(.is_right_choice(is_right_choice), .btn(btn), .current_number(current_number));
-
 wire was_some_btn_pressed;
-recieve_btn_input btn_input(.was_some_btn_pressed(was_some_btn_pressed), .btn(btn));
+recieve_btn_input btn_input(
+  .was_right_btn_pressed(is_right_choice),
+  .was_some_btn_pressed(was_some_btn_pressed), 
+  .btn(btn), 
+  .current_number(current_number)
+);
+
+
 
 wire [9:0] shifted_leds;
 shift_leds shift(.y(shifted_leds), .x(leds));
@@ -62,7 +67,7 @@ always @(posedge clock) begin
           segd0 <= seg_off;
           next_state <= state; // mantenha o estado atual
           // Resetar o jogo
-          if (start && sw) begin 
+          if (start && sequences) begin 
             sequence_count <= 4'h0;
             current_level <= 4'h0;
             leds <= 10'h1;

@@ -3,7 +3,7 @@ module my_sequence (
     input [3:0] sequence_count,
     input clk,
     input start,
-    input [3:0]sw
+    input [3:0] sequences
 );
 
 parameter [1:0] zero = 2'b00;
@@ -29,7 +29,7 @@ reg [1:0] sequence_15;
 
 
 always @(posedge start) begin 
-    if (sw[0]) begin
+    if (sequences[0]) begin
     sequence_0 <= two;
     sequence_1 <= one;
     sequence_2 <= zero;
@@ -47,7 +47,7 @@ always @(posedge start) begin
     sequence_14 <= zero;
     sequence_15 <= one;
     end
-    else if (sw[1]) begin 
+    else if (sequences[1]) begin 
     sequence_0 <= two;
     sequence_1 <= one;
     sequence_2 <= zero;
@@ -65,7 +65,7 @@ always @(posedge start) begin
     sequence_14 <= zero;
     sequence_15 <= one;
     end
-    else if (sw[2]) begin 
+    else if (sequences[2]) begin 
     sequence_0 <= zero;
     sequence_1 <= two;
     sequence_2 <= one;

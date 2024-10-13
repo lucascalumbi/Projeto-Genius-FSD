@@ -3,7 +3,7 @@ module genius(
   input [2:0] btn,
   input reset,
   input start, 
-  input [5:2] sw,
+  input [5:2] sequences,
   output reg [6:0] segd0,  
   output reg [6:0] segd1,  
   output reg [6:0] segd2,  
@@ -13,7 +13,7 @@ module genius(
 
 reg [3:0] sequence_count;
 wire [1:0] current_number;
-my_sequence seq(.current_number(current_number), .sequence_count(sequence_count), .clk(clock), .start(start), .sw(sw[5:2]));
+my_sequence seq(.current_number(current_number), .sequence_count(sequence_count), .clk(clock), .start(start), .sequences(sequences));
 
 wire [6:0] segd_0; 
 //dec7seg_4bits_hexadec dec7seg_4bits_hexadec0(.y(segd_0), .a({2'b00,current_number}));
@@ -26,10 +26,15 @@ wire [6:0] segd_3;
 dec7seg_4bits_1x2 dec7_4bits_1x2(.x(segd_3), .y(segd_2), .a(current_level));
 
 wire is_right_choice;
-verify_btn verifier(.is_right_choice(is_right_choice), .btn(btn), .current_number(current_number));
-
 wire was_some_btn_pressed;
-recieve_btn_input btn_input(.was_some_btn_pressed(was_some_btn_pressed), .btn(btn));
+recieve_btn_input btn_input(
+  .was_right_btn_pressed(is_right_choice),
+  .was_some_btn_pressed(was_some_btn_pressed), 
+  .btn(btn), 
+  .current_number(current_number)
+);
+
+
 
 wire [9:0] shifted_leds;
 shift_leds shift(.y(shifted_leds), .x(leds));
@@ -62,7 +67,7 @@ always @(posedge clock) begin
           segd0 <= seg_off;
           next_state <= state; // mantenha o estado atual
           // Resetar o jogo
-          if (start && sw) begin 
+          if (start && sequences) begin 
             sequence_count <= 4'h0;
             current_level <= 4'h0;
             leds <= 10'h1;
@@ -151,7 +156,7 @@ module my_sequence (
     input [3:0] sequence_count,
     input clk,
     input start,
-    input [3:0]sw
+    input [3:0] sequences
 );
 
 parameter [1:0] zero = 2'b00;
@@ -177,7 +182,7 @@ reg [1:0] sequence_15;
 
 
 always @(posedge start) begin 
-    if (sw[0]) begin
+    if (sequences[0]) begin
     sequence_0 <= two;
     sequence_1 <= one;
     sequence_2 <= zero;
@@ -195,7 +200,7 @@ always @(posedge start) begin
     sequence_14 <= zero;
     sequence_15 <= one;
     end
-    else if (sw[1]) begin 
+    else if (sequences[1]) begin 
     sequence_0 <= two;
     sequence_1 <= one;
     sequence_2 <= zero;
@@ -213,7 +218,7 @@ always @(posedge start) begin
     sequence_14 <= zero;
     sequence_15 <= one;
     end
-    else if (sw[2]) begin 
+    else if (sequences[2]) begin 
     sequence_0 <= zero;
     sequence_1 <= two;
     sequence_2 <= one;
@@ -325,10 +330,18 @@ endmodule
 
 module recieve_btn_input(
     output was_some_btn_pressed,
-    input [2:0] btn
+    output was_right_btn_pressed,
+    input [2:0] btn,
+    input [1:0] current_number
 );
 
-    assign was_some_btn_pressed = btn[0] || btn[1] || btn[2];
+verify_btn verify0(
+    .is_right_choice(was_right_btn_pressed),
+    .btn(btn),
+    .current_number(current_number)
+);
+    assign was_some_btn_pressed = btn[0] + btn[1] + btn[2];
+
 
 endmodule
 
@@ -341,26 +354,44 @@ module shift_leds(
     assign y = x[9] ? 10'b0000000001 : x << 1'b1; 
 
 endmodule
-module dec7seg_4bits_hexadec(
-    output [6:0] y,    
-    input [3:0] a   
-);  
 
-    assign y =  (a == 4'h0) ? 7'b1111110 :
-                (a == 4'h1) ? 7'b0110000 :
-                (a == 4'h2) ? 7'b1101101 :
-                (a == 4'h3) ? 7'b1111001 :
-                (a == 4'h4) ? 7'b0110011 :
-                (a == 4'h5) ? 7'b1011011 :
-                (a == 4'h6) ? 7'b1011111 :
-                (a == 4'h7) ? 7'b1110000 :
-                (a == 4'h8) ? 7'b1111111 :
-                (a == 4'h9) ? 7'b1111011 :
-                (a == 4'hA) ? 7'b1110111 :
-                (a == 4'hB) ? 7'b0011111 :
-                (a == 4'hC) ? 7'b1001110 :
-                (a == 4'hD) ? 7'b0111101 :
-                (a == 4'hE) ? 7'b1001111 :
-                (a == 4'hF) ? 7'b1000111 :
-                7'b0000000;
+module dec7seg_4bits_1x2(
+    output [6:0] x,
+    output [6:0] y,
+    input [3:0] a
+); 
+
+dec7seg_4bits d0(.x(y), .a( (a > 4'h9) ? a - 4'ha : a));
+dec7seg_4bits d1(.x(x), .a((a > 4'h9) ? 4'h1 : 4'h0));
+
+endmodule
+module dec7seg_4bits(
+  output [6:0] x, 
+  input [3:0] a
+);
+
+  assign x =  (a == 4'h0) ? 7'b1111110 :
+              (a == 4'h1) ? 7'b0110000 :
+              (a == 4'h2) ? 7'b1101101 :
+              (a == 4'h3) ? 7'b1111001 :
+              (a == 4'h4) ? 7'b0110011 :
+              (a == 4'h5) ? 7'b1011011 :
+              (a == 4'h6) ? 7'b1011111 :
+              (a == 4'h7) ? 7'b1110000 :
+              (a == 4'h8) ? 7'b1111111 :
+              (a == 4'h9) ? 7'b1111011 :
+              7'b0000000; 
+
+endmodule
+module dec7seg_2bits(
+    output [6:0] x, 
+    input [1:0] a
+);
+
+  assign x = (a == 2'b00) ? 7'b1111110 :
+             (a == 2'b01) ? 7'b0110000 :
+             (a == 2'b10) ? 7'b1101101 :
+             (a == 2'b11) ? 7'b0000000 :
+             7'b0000000; 
+
 endmodule
