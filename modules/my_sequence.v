@@ -1,9 +1,9 @@
 module my_sequence (
-    output reg [1:0] current_number,
+    output reg [1:0] current_sequence_number,
     input [3:0] sequence_count,
-    input clk,
+    input clock,
     input start,
-    input [3:0] sequences
+    input [3:0] sequences_opitions
 );
 
 parameter [1:0] zero = 2'b00;
@@ -29,7 +29,7 @@ reg [1:0] sequence_15;
 
 
 always @(posedge start) begin 
-    if (sequences[0]) begin
+    if (sequences_opitions[0]) begin
     sequence_0 <= two;
     sequence_1 <= one;
     sequence_2 <= zero;
@@ -47,7 +47,7 @@ always @(posedge start) begin
     sequence_14 <= zero;
     sequence_15 <= one;
     end
-    else if (sequences[1]) begin 
+    else if (sequences_opitions[1]) begin 
     sequence_0 <= two;
     sequence_1 <= one;
     sequence_2 <= zero;
@@ -65,7 +65,7 @@ always @(posedge start) begin
     sequence_14 <= zero;
     sequence_15 <= one;
     end
-    else if (sequences[2]) begin 
+    else if (sequences_opitions[2]) begin 
     sequence_0 <= zero;
     sequence_1 <= two;
     sequence_2 <= one;
@@ -101,7 +101,7 @@ always @(posedge start) begin
     sequence_14 <= one;
     sequence_15 <= two;
     end
-/*    else if (sw[4]) begin
+/*    else if (sequences_opitions[4]) begin
     sequence_0 <= one;
     sequence_1 <= two;
     sequence_2 <= zero;
@@ -139,25 +139,25 @@ always @(posedge start) begin
     end*/
 end
 
-always @(posedge clk) begin
+always @(posedge clock) begin
     case (sequence_count)
-        4'h0: current_number <= sequence_0;
-        4'h1: current_number <= sequence_1;
-        4'h2: current_number <= sequence_2;
-        4'h3: current_number <= sequence_3;
-        4'h4: current_number <= sequence_4;
-        4'h5: current_number <= sequence_5;
-        4'h6: current_number <= sequence_6;
-        4'h7: current_number <= sequence_7;
-        4'h8: current_number <= sequence_8;
-        4'h9: current_number <= sequence_9;
-        4'hA: current_number <= sequence_10;
-        4'hB: current_number <= sequence_11;
-        4'hC: current_number <= sequence_12;
-        4'hD: current_number <= sequence_13;
-        4'hE: current_number <= sequence_14;
-        4'hF: current_number <= sequence_15;
-        default: current_number <= 2'b00; 
+        4'h0: current_sequence_number <= sequence_0;
+        4'h1: current_sequence_number <= sequence_1;
+        4'h2: current_sequence_number <= sequence_2;
+        4'h3: current_sequence_number <= sequence_3;
+        4'h4: current_sequence_number <= sequence_4;
+        4'h5: current_sequence_number <= sequence_5;
+        4'h6: current_sequence_number <= sequence_6;
+        4'h7: current_sequence_number <= sequence_7;
+        4'h8: current_sequence_number <= sequence_8;
+        4'h9: current_sequence_number <= sequence_9;
+        4'hA: current_sequence_number <= sequence_10;
+        4'hB: current_sequence_number <= sequence_11;
+        4'hC: current_sequence_number <= sequence_12;
+        4'hD: current_sequence_number <= sequence_13;
+        4'hE: current_sequence_number <= sequence_14;
+        4'hF: current_sequence_number <= sequence_15;
+        default: current_sequence_number <= 2'b00; 
     endcase
 end
 
